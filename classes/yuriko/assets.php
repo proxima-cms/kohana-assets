@@ -28,7 +28,23 @@ class Yuriko_Assets {
 
 	public function __construct(ArrayObject $config = NULL)
 	{
-		$this->_config = ($config) ? $config : Kohana::$config->load('assets');
+		$this->config($config ?: Kohana::$config->load('assets'));
+	}
+
+	public function config(ArrayObject $config = NULL)
+	{
+		if ($config)
+		{
+			foreach($config as $group => $c)
+			{
+				if (!isset($this->_config[$group]))
+				{
+					$this->_config[$group] = array();
+				}
+
+				$this->_config[$group][] = $c[0];
+			}
+		}
 	}
 
 	public function group($name)
